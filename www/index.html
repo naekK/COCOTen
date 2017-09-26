@@ -1,0 +1,465 @@
+<!DOCTYPE HTML>
+<html lang="jp">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/angular/angular.min.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="lib/onsenui/js/angular-onsenui.min.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    
+      .weather {
+          text-align: center;
+          font-size: 40px;
+          margin-top: : 10px;
+      }
+      
+      .description {
+          font-size: 20px;
+      }
+      
+  </style>
+  
+
+
+
+  
+  <script>
+  
+    var htmlstr1;
+    
+    function successFunc( position ) {
+        // 緯度を取得
+        var here_lat = position.coords.latitude.toFixed(2);
+        // document.getElementById("here_lat").innerHTML= here_lat;
+        // 経度をアラート表示
+        var here_lon = position.coords.longitude.toFixed(2);
+        // document.getElementById("here_lon").innerHTML= here_lon;
+        htmlstr1 = "http://api.openweathermap.org/data/2.5/forecast/daily/?units=metric&lat=" + here_lat + "&lon=" + here_lon + "&cnt=7&APPID=1c125ce6c2f031b95f10a6c64595cafe" ;
+
+        //今日の日付データを変数hidukeに格納
+        var hiduke=new Date(); 
+        //年・月・日・曜日を取得する
+        var year = hiduke.getFullYear()
+        var month = hiduke.getMonth()+1;
+        var day0 = hiduke.getDate();
+        var day1 = hiduke.getDate()+1;
+        var day2 = hiduke.getDate()+2;
+        var day3 = hiduke.getDate()+3;
+        var day4 = hiduke.getDate()+4;
+        var day5 = hiduke.getDate()+5;
+        var day6 = hiduke.getDate()+6;
+        var week = hiduke.getDay();
+        
+        var yobi= new Array("（日）","（月）","（火）","（水）","（木）","（金）","（土）","（日）","（月）","（火）","（水）","（木）","（金）");
+        
+        // html2のリスト用　取得する地域
+        var httpObj = new XMLHttpRequest();
+        // openweathermapからJSONデータ取得
+        httpObj.open("GET", htmlstr1, true);
+        httpObj.onload = function(){
+            var data = JSON.parse(this.responseText);   // JSON形式データを変換
+            var cityName = data.city.name;  // 都市名を取得
+            switch (cityName) {
+                case 'Kyoto':
+                    cityName = '京都市';
+                    break;
+                
+                case 'Muko':
+                    cityName = '向日市';
+                    break;
+                
+                case 'Ishikawa-ken':
+                    cityName = '石川県';
+                    break;
+                
+                case 'Matoba':
+                    cityName = '的場';
+                    break;
+                
+                case 'Japan':
+                    cityName = '日本';
+                    break;
+                
+                case 'Hokkaidō':
+                    cityName = '北海道';
+                    break;
+                
+                case 'Hashimoto':
+                    cityName = '橋本';
+                    break;
+                
+                case 'Tsukuba-kenkyūgakuen-toshi':
+                    cityName = '筑波研究学園都市';
+                    break;
+                
+                case 'Higashi-asahimachi':
+                    cityName = '東旭町';
+                    break;
+                
+                case 'Hanabatachō':
+                    cityName = '花畑町';
+                    break;
+                
+                case 'Senzaki':
+                    cityName = '仙崎';
+                    break;
+                
+                case 'Sakaki':
+                    cityName = 'Sakaki';
+                    break;
+                
+                case 'Daisen':
+                    cityName = '大山';
+                    break;
+                
+                case 'Ikaruga':
+                    cityName = '斑鳩';
+                    break;
+                
+                case 'Matsuzaki':
+                    cityName = '松崎';
+                    break;
+                
+                case 'Noboribetsu':
+                    cityName = '登別';
+                    break;
+                
+                case 'Tōkyō-to':
+                    cityName = '東京都';
+                    break;
+                
+                case 'Kimiidera':
+                    cityName = '紀三井寺';
+                    break;
+                
+                case 'Youkaichi':
+                    cityName = '八日市';
+                    break;
+                
+                case 'Suzaka':
+                    cityName = '鈴鹿';
+                    break;
+                
+                case 'Hyōgo-ken':
+                    cityName = '兵庫県';
+                    break;
+                
+                case 'Ehime-ken':
+                    cityName = '愛媛県';
+                    break;
+                
+                case 'Yokogawara':
+                    cityName = '横河原';
+                    break;
+                
+                case 'Yamagata-ken':
+                    cityName = '山形県';
+                    break;
+                
+                case 'Yamaguchi-ken':
+                    cityName = '山口県';
+                    break;
+                
+                case 'Yamanashi-ken':
+                    cityName = '山梨県';
+                    break;
+                
+                case 'Aichi-ken':
+                    cityName = '愛知県';
+                    break;
+                
+                case 'Ibaraki-ken':
+                    cityName = '茨城県';
+                    break;
+                
+                case 'Asagaya':
+                    cityName = '阿佐ヶ谷';
+                    break;
+                
+                case 'Hachinohe':
+                    cityName = '八戸';
+                    break;
+                
+                case 'Utsunomiya-shi':
+                    cityName = '宇都宮市';
+                    break;
+                
+                case 'Okinawa':
+                    cityName = '沖縄';
+                    break;
+                
+                case 'Miyazaki-shi':
+                    cityName = '宮崎市';
+                    break;
+                
+                case 'Shijōdōri':
+                    cityName = '四条通';
+                    break;
+                
+                case 'Fukushima-shi':
+                    cityName = '福島市';
+                    break;
+                
+                case 'Toyama-shi':
+                    cityName = '富山市';
+                    break;
+                
+                case 'Hiroshima-shi':
+                    cityName = '広島市';
+                    break;
+                
+                case 'Gifu-shi':
+                    cityName = '岐阜市';
+                    break;
+                
+                default:
+                    cityName = cityName;
+                    break;
+            }
+            // データ整形
+            var day = [
+                        (month+"/"+day0), 
+                        (month+"/"+day1),
+                        (month+"/"+day2),
+                        (month+"/"+day3),
+                        (month+"/"+day4),
+                        (month+"/"+day5),
+                        (month+"/"+day6)
+            ];
+            var tag = "";
+            tag += "<div style='height:30px;color:#3300cc;margin:30px auto 0px 20px;'><span style='font-size:1.5em;font-weight:bold;'>" + "今日の天気" + "</span><span style='font-size:normal;;'>  " + cityName + "</span></div>";
+            for(var i=0; i<7; i++){
+                var weather1 = data.list[i].weather[0].main;
+                switch (weather1) {
+                        case 'Clouds':
+                            weather1 = "くもり";
+                            break;
+                            
+                        case 'Thunderstorm':
+                            weather1 = '雷';
+                            break;
+                        
+                        case 'Rain':
+                            weather1 = '雨';
+                            break;
+                            
+                        case 'Clear':
+                            weather1 = '快晴';
+                            break;
+                            
+                        default:
+                            weather1 =weather1;
+                            break;
+                };
+                var wdescription = data.list[i].weather[0].description;
+                switch (wdescription) {   
+                        case 'thunderstorm':
+                            wdescription='雷雲';
+                            break;
+                            
+                        case 'light intensity shower rain':
+                            wdescription = '軽度のにわか雨';
+                            break;
+                            
+                        case 'shower rain':
+                            wdescription = 'にわか雨';
+                            break;
+                            
+                        case 'broken clouds':
+                            wdescription = '千切れ雲';
+                            break;
+                            
+                        case 'scattered clouds':
+                            wdescription = '散乱雲';
+                            break;
+                        
+                        case 'overcast clouds':
+                            wdescription = 'くもり';
+                            break;
+                            
+                        case 'heavy intensity rain':
+                            wdescription = '強い雨';
+                            break;
+                            
+                        case 'few clouds':
+                            wdescription = '少ない雲';
+                            break;
+
+                        default:
+                            wdescription = wdescription;
+                            break;
+                    };            
+                var tempMax = Math.floor(Number(data.list[i].temp.max)*10)/10 + " ℃";   // 最高気温
+                var tempMin = Math.floor(Number(data.list[i].temp.min)*10)/10 + " ℃";   // 最低気温
+                /* var icon = "<img src='http://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png'>";    // お天気アイコン */
+                var icon = "<img src='lib/assets/" + data.list[i].weather[0].icon + ".png' width='30px'>";    // お天気アイコン
+                var tempAvg = Math.floor(Number(data.list[i].temp.day)*10)/10 + " ℃";    // 平均気温
+                var humidRate = data.list[i].humidity + " %"; // 湿度
+                if (i==0) {
+                    
+                    tag += "<table style='width:100%;padding:30px 0 30px 0;'><tr>";
+                    tag += "<th style='vertical-align:middle;text-align:right;font-size:x-large;'>" + day[i] + " " + yobi[week+i] + "</th>";
+                    tag += "<td colspan='2'>" + icon + "<br/>" + weather1 + "（" + wdescription + "）</td></tr><tr>";
+                    tag += "<td style='font-size:large;padding:10px 5px 5px 5px;'>気温：" + tempAvg + "</td>";
+                    tag += "<td style='font-size:large;padding:10px 5px 5px 5px;'>" + tempMax + "（最高）<br/>" + tempMin + "（最低）</td>";
+                    tag += "<td style='font-size:large;padding:10px 5px 5px 5px;'>湿度：" + humidRate + "</td></tr></table>";
+                } else if (i%2 != 0) {
+                    tag += "<div style='padding:50px 0px 50px 0px;text-align:left;position:relative;'>" + "<div style='float:left;width:20%;margin-left:20px;text-align:center;padding:10px;'>" +"<span style='font-weight:bold;'>"+ day[i] + yobi[week+i] +"</span><br/>" + icon + "</br>" + weather1 + "</div><div style='float:left;width:auto;padding:10px;line-height:1.8em;'>気温 " + tempAvg + " " + humidRate + "<br/>最高 " + tempMax + " / 最低 "  + tempMin  + "</div>" + "</div>";
+                } else if (i%2 == 0) {
+                    tag += "<div style='padding:50px 0px 50px 0px;text-align:left;position:relative;top:-10px;left:80px;'>" + "<div style='float:left;width:20%;padding-left:20px;text-align:center;padding:10px;'>" +"<span style='font-weight:bold;'>" + day[i] + yobi[week+i] +"</span><br/>" + icon + "</br>" + weather1 + "</div><div style='float:left;width:auto;padding:10px;line-height:1.8em;'>気温 " + tempAvg + " " + humidRate + "<br/>最高 " + tempMax + " / 最低 "  + tempMin + "</div>" + "</div>"
+                }
+            }
+             
+            var result = document.getElementById("result");
+            result.innerHTML = tag;
+        }
+        httpObj.send(null);
+
+
+    }
+    
+    // 失敗した時の関数
+    function errorFunc( error ) {
+        // エラーコードのメッセージを定義
+	    var errorMessage = {
+		    0: "原因不明のエラーが発生しました…。" ,
+		    1: "位置情報の取得が許可されませんでした…。" ,
+		    2: "電波状況などで位置情報が取得できませんでした…。" ,
+		    3: "位置情報の取得に時間がかかり過ぎてタイムアウトしました…。" ,
+	    };
+
+	    // エラーコードに合わせたエラー内容をアラート表示
+	    alert( errorMessage[error.code] ) ;
+    }
+    
+
+    // オプション・オブジェクト
+    var optionObj = {
+        "enableHighAccuracy": false ,
+	    "timeout": 8000 ,
+	    "maximumAge": 5000 ,
+    };
+
+
+    if(navigator.geolocation) {
+        
+        navigator.geolocation.getCurrentPosition( successFunc , errorFunc , optionObj ) ;
+        //　opwnweathermapからお天気データを取得
+        var app = ons.bootstrap();
+//        module.controller('AppController',function($scope, $http) {
+//            var config = {
+//                params: { 
+//                    lat: here_lat,
+//                    lon: here_lon,
+//                    cnt: 7,
+//                    APPID: '1c125ce6c2f031b95f10a6c64595cafe'
+//                    // q: 'Kyoto,jp',
+//                }
+//            } 
+//            
+//            $http.get('http://api.openweathermap.org/data/2.5/weather',config)
+//                .success(function(data) {
+//                    $scope.weather =data.weather[0].main;
+//                    $scope.description = data.weather[0].description;
+//                    $scope.icon = data.weather[0].icon;
+//                    $scope.id = data.weather[0].id;
+//                    $scope.humidity = data.main.humidity;
+//                    $scope.temp = parseInt(data.main.temp-273.15);
+//                    $scope.dt = data.main.day;
+//                    
+//                    
+//                    switch ($scope.weather) {
+//                        case 'Clouds':
+//                            $scope.weather = "くもり";
+//                            break;
+//                            
+//                        case 'Thunderstorm':
+//                            $scope.weather = '雷';
+//                            break;
+//                        
+//                        case 'Rain':
+//                            $scope.weather = '雨';
+//                            break;
+//                            
+//                        default:
+//                            $scope.weather =$scope.weather;
+//                            break;
+//                    };
+//                    
+//                    switch ($scope.description) {   
+//                        case 'thunderstorm':
+//                            $scope.description='雷雲';
+//                            break;
+//                           
+//                        case 'light intensity shower rain':
+//                            $scope.description = '軽度のにわか雨';
+//                            break;
+//                            
+//                        case 'shower rain':
+//                            $scope.description = 'にわか雨';
+//                            break;
+//                            
+//                        case 'broken clouds':
+//                            $scope.description = '千切れ雲';
+//                            break;
+//                            
+//                        case 'scattered clouds':
+//                            $scope.description = '散乱雲';
+//                            break;
+//                            
+//                        default:
+//                            $scope.description=$scope.description;
+//                            break;
+//                    };                
+//                
+//                })
+//                .error(function() {
+//                    alert('天気情報の取得に失敗しました');
+//                }); 
+                
+      
+//        });
+    
+    
+        
+    } else {
+        
+        alert("お使いの端末は、GeoLacation APIに対応していません。");
+    }
+
+  </script>
+  
+
+    
+</head>
+<body style="background:linear-gradient(#03A9F4,#E1F5FE);">
+    <ons-navigator var="myNavigator" page="index.html">
+        
+      <ons-page ng-controller="AppController" id="index.html">
+        <ons-toolbar style="background:url('images/xhdpi.png') left bottom no-repeat;background-size:contain;">
+          <div class="center" style="color:#000099;font-weight:bold;text-align:center;padding-top:10px;">ココの天気</div>
+        </ons-toolbar>
+        
+        <div class="weather">
+
+            <div id="result" style="font-size:0.4em;text-align:center;">Getting weather...</div>
+        
+        </div>
+        
+
+      </ons-page>
+    </ons-navigator>
+    
+
+    
+</body>
+</html>
